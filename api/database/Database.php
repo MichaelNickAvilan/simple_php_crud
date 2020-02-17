@@ -5,8 +5,23 @@ Class Database {
         $this->env = $this->loadConfig();
     }
     public function rawQuery($query, $params){
-        $this->openConnection();
-        $this->closeConection();
+        $conn = $this->openConnection();
+        $stmt = $conn->prepare($query);
+        if(count($params) === 0){
+            $stmt->execute();
+            $rows = mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
+            mysqli_stmt_close($stmt);
+            return $rows;
+        }else{
+            foreach ($params as $key => $param) {
+                $stmt->bind_param($param[0], $param[1]);
+            }
+            $stmt->execute();
+            $rows = mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
+            mysqli_stmt_close($stmt);
+            return $rows;
+        }
+        $this->closeConection($conn);
     }
     private function openConnection(){
         $conn = new mysqli

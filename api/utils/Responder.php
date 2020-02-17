@@ -8,6 +8,11 @@ class Responder{
                 $response->code = $header_code;
                 $response->message = $message;
             break;
+            case 'success':
+                $response->status = 'success';
+                $response->code = $header_code;
+                $response->message = $message;
+            break;
         }
         header("Content-Type: application/json;charset=utf-8");
         http_response_code($header_code);

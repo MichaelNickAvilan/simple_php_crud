@@ -30,7 +30,14 @@ Class Systems extends Responder{
             $uri=explode("/",$uri);
             $index = count($uri) - 1;
             if( $this->route === $uri[$index] ){
-                //Return all registers
+                $database_consumer = new Database();
+                $items = $database_consumer->rawQuery(
+                    "SELECT * FROM systems", []
+                );
+                $response = new stdClass();
+                $response->total = count($items);
+                $response->items = $items;
+                $this->publishResponse('200', $response, 'success');
             }else{
                 $this->show($uri[$index]);    
             }
@@ -38,7 +45,16 @@ Class Systems extends Responder{
     }
     private function show($id){
         $database_consumer = new Database();
-        //Return only the requested register
+        $items = $database_consumer->rawQuery(
+            "SELECT * FROM systems WHERE id = ? ", 
+            [ 
+                [ 'i', $id ] 
+            ]
+        );
+        $response = new stdClass();
+        $response->total = count($items);
+        $response->items = $items;
+        $this->publishResponse('200', $response, 'success');
     }
     private function insert($request){}
     private function update($request){}
