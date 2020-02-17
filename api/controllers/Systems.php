@@ -1,5 +1,6 @@
 <?php
 include_once( __DIR__.'/../interfaces/Controller.php' );
+include_once( __DIR__.'/../database/Database.php' );
 
 Class Systems {
     private $route='system';
@@ -32,6 +33,7 @@ Class Systems {
         }
     }
     private function show($id){
+        $database_consumer = new Database();
         var_dump($id);
     }
     private function insert($request){}
