@@ -1,8 +1,9 @@
 <?php
 include_once( __DIR__.'/../interfaces/Controller.php' );
 include_once( __DIR__.'/../database/Database.php' );
+include_once( __DIR__.'/../utils/Responder.php' );
 
-Class Systems {
+Class Systems extends Responder{
     private $route='system';
     public function __construct($request){
         $request_method = ($request['_SERVER']['REQUEST_METHOD']);
@@ -24,17 +25,20 @@ Class Systems {
     private function get($request){
         $uri = $request['_SERVER']['REQUEST_URI'];
         if(count($request['_GET']) > 0){
-            //Evaluar parámetros
+            //Evaluate params
         }else{
             $uri=explode("/",$uri);
             $index = count($uri) - 1;
-            $id = $uri[$index];
-            $this->show($id);
+            if( $this->route === $uri[$index] ){
+                //Return all registers
+            }else{
+                $this->show($uri[$index]);    
+            }
         }
     }
     private function show($id){
         $database_consumer = new Database();
-        var_dump($id);
+        //Return only the requested register
     }
     private function insert($request){}
     private function update($request){}
