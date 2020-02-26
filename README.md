@@ -24,7 +24,8 @@ DB_NAME=systemsapp
 ```
 
 ### routes
-| Route | Description |
-| ------ | ------ |
-| http://localhost/appsystem/api/system | Returns all the registers of the systems table |
-| http://localhost/appsystem/api/system/1 | Returns a specific register |
+| Route | Description | Verb | Payload |
+| ------ | ------ | ------ | ------ |
+| http://localhost/appsystem/api/system | Returns all the registers of the systems table | GET | N/A |
+| http://localhost/appsystem/api/system/1 | Returns a specific register | GET | N/A |
+| http://localhost/appsystem/api/system | Inserts a register | POST | { "name" : "The system name" } |

@@ -13,13 +13,20 @@ Class Database {
             mysqli_stmt_close($stmt);
             return $rows;
         }else{
+            $binds='';
+            $values = array();
             foreach ($params as $key => $param) {
-                $stmt->bind_param($param[0], $param[1]);
+                $binds.=$param[0];
+                array_push($values, $param[1]);
             }
+            array_unshift($values,$binds);
+            call_user_func_array(array($stmt, 'bind_param'), $this->getReferences($values));
             $stmt->execute();
-            $rows = mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
+            $response = new stdClass();
+            $response ->affected_rows = $stmt->affected_rows;
+            $response ->insert_id = $stmt->insert_id;
             mysqli_stmt_close($stmt);
-            return $rows;
+            return $response;
         }
         $this->closeConection($conn);
     }
@@ -49,6 +56,13 @@ Class Database {
         }
         return $param;
     }
-    private function getParam($param){}
+    private function getReferences($args){
+        foreach (array_keys($args) as $i) {
+          if ($i>0){ 
+            $args[$i] = & $args[$i];
+          }
+        }
+        return $args;
+    }
 }
 ?>

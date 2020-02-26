@@ -12,11 +12,7 @@ Class API extends Responder {
 
     public function __construct() {
         $this->routes = [
-            ['system', 'controllers/Systems.php', 'Systems'],
-            ['modules', 'controllers/Modules.php', 'Modules'],
-            ['pages', 'controllers/Pages.php', 'Pages'],
-            ['forms', 'controllers/Forms.php', 'Forms'],
-            ['regs', 'controllers/Regs.php', 'Regs']
+            ['system', 'controllers/Systems.php', 'Systems']
         ];
         $this->dispatchAction();
     }
@@ -24,7 +20,16 @@ Class API extends Responder {
         $current_route = $this->getCurrentRoute();
         if($current_route != NULL){
             include_once( __DIR__.'/'.$current_route[1] );
-            $consumer = new $current_route[2]($GLOBALS);
+            $method = $GLOBALS['_SERVER']['REQUEST_METHOD'];
+            if($method == 'POST' || $method == 'UPDATE'){
+                $consumer = new $current_route[2]
+                ( 
+                    $GLOBALS,
+                    json_decode(file_get_contents('php://input')) 
+                );    
+            }else{
+                $consumer = new $current_route[2]($GLOBALS);
+            }
         }
     }
     private function getCurrentRoute(){

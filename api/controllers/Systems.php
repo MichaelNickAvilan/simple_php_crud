@@ -5,14 +5,14 @@ include_once( __DIR__.'/../utils/Responder.php' );
 
 Class Systems extends Responder{
     private $route='system';
-    public function __construct($request){
+    public function __construct($request, $payload = NULL){
         $request_method = ($request['_SERVER']['REQUEST_METHOD']);
         switch($request_method){
             case 'GET':
                 $this->get($request);
             break;
             case 'POST':
-                $this->insert($request);
+                $this->insert($payload);
             break;
             case 'UPDATE':
                 $this->update($request);
@@ -56,8 +56,26 @@ Class Systems extends Responder{
         $response->items = $items;
         $this->publishResponse('200', $response, 'success');
     }
-    private function insert($request){}
-    private function update($request){}
+    private function insert($payload){
+        $database_consumer = new Database();
+        $response = new stdClass();
+        $date = date("Y-m-d H:i:s");
+        $query = $database_consumer->rawQuery(
+            "INSERT INTO systems (name, creation_date, modification_date) 
+            VALUES (?,?,?)", 
+            [ 
+                [ 's', $payload->name ],
+                [ 's', $date ],
+                [ 's', $date ], 
+            ]
+        );
+        $response->status = "success";
+        $response->message = $query;
+        $this->publishResponse('200', $response, 'success');
+    }
+    private function update($payload){
+        var_dump($payload);
+    }
     private function delete($request){}
 }
 ?>
