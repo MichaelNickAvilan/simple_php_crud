@@ -47,8 +47,8 @@ php artisan migrate
 ### routes
 | Route | Description | Verb | Payload |
 | ------ | ------ | ------ | ------ |
-| http://localhost/apilaravel/api/systems | Returns all the registers of the systems table | GET | N/A |
-| http://localhost/apilaravel/api/systems/1 | Returns a specific register | GET | N/A |
-| http://localhost/apilaravel/api/systems | Inserts a register | POST | { "name" : "The system name" } |
-| http://localhost/apilaravel/api/systems/{id} | Updates a register | PUT | { "name" : "The system name" } |
-| http://localhost/apilaravel/api/systems/{id} | Deletes a register | DELETE | N/A |
+| http://localhost/apilaravel/public/api/systems | Returns all the registers of the systems table | GET | N/A |
+| http://localhost/apilaravel/public/api/systems/1 | Returns a specific register | GET | N/A |
+| http://localhost/apilaravel/public/api/systems | Inserts a register | POST | { "name" : "The system name" } |
+| http://localhost/apilaravel/public/api/systems/{id} | Updates a register | PUT | { "name" : "The system name" } |
+| http://localhost/apilaravel/public/api/systems/{id} | Deletes a register | DELETE | N/A |
