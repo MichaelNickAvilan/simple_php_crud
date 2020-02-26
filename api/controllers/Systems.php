@@ -5,7 +5,9 @@ include_once( __DIR__.'/../utils/Responder.php' );
 
 Class Systems extends Responder{
     private $route='system';
+    private $uri='';
     public function __construct($request, $payload = NULL){
+        $this->uri = $request['_SERVER']['REQUEST_URI'];
         $request_method = ($request['_SERVER']['REQUEST_METHOD']);
         switch($request_method){
             case 'GET':
@@ -23,7 +25,7 @@ Class Systems extends Responder{
         }
     }
     private function get($request){
-        $uri = $request['_SERVER']['REQUEST_URI'];
+        $uri = $this->uri;
         if(count($request['_GET']) > 0){
             //Evaluate params
         }else{
@@ -72,7 +74,7 @@ Class Systems extends Responder{
         $this->publishResponse('200', $query, 'success');
     }
     private function update($request, $payload){
-        $uri = $request['_SERVER']['REQUEST_URI'];
+        $uri = $this->uri;
         $uri=explode("/",$uri);
         $index = count($uri) - 1;
         if( $this->route != $uri[$index] ){

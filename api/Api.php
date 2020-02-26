@@ -61,7 +61,7 @@ Class API extends Responder {
             }
         }
         if($centinel === FALSE){
-            $this->publishResponse('400', 'The requested resourse does not exist', 'error');
+            $this->publishResponse('400', 'The requested resource does not exist', 'error');
         }
     }
 }

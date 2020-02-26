@@ -22,10 +22,17 @@ Class Database {
             array_unshift($values,$binds);
             call_user_func_array(array($stmt, 'bind_param'), $this->getReferences($values));
             $stmt->execute();
-            $response = new stdClass();
-            $response ->affected_rows = $stmt->affected_rows;
-            $response ->insert_id = $stmt->insert_id;
-            mysqli_stmt_close($stmt);
+            if(strrpos($query, "SELECT") === 0){
+                $rows = mysqli_fetch_all(mysqli_stmt_get_result($stmt), MYSQLI_ASSOC);
+                mysqli_stmt_close($stmt);
+                return $rows;
+            }else{
+                $response = new stdClass();
+                $response ->affected_rows = $stmt->affected_rows;
+                $response ->insert_id = $stmt->insert_id;
+                mysqli_stmt_close($stmt);
+            }
+            
             return $response;
         }
         $this->closeConection($conn);
