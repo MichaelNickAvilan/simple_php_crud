@@ -14,8 +14,8 @@ Class Systems extends Responder{
             case 'POST':
                 $this->insert($payload);
             break;
-            case 'UPDATE':
-                $this->update($request);
+            case 'PUT':
+                $this->update($request, $payload);
             break;
             case 'DELETE':
                 $this->delete($request);
@@ -69,12 +69,25 @@ Class Systems extends Responder{
                 [ 's', $date ], 
             ]
         );
-        $response->status = "success";
-        $response->message = $query;
-        $this->publishResponse('200', $response, 'success');
+        $this->publishResponse('200', $query, 'success');
     }
-    private function update($payload){
-        var_dump($payload);
+    private function update($request, $payload){
+        $uri = $request['_SERVER']['REQUEST_URI'];
+        $uri=explode("/",$uri);
+        $index = count($uri) - 1;
+        if( $this->route != $uri[$index] ){
+           $database_consumer = new Database();
+           $query = $database_consumer->rawQuery(
+               "UPDATE systems SET name=? WHERE id=?", 
+               [
+                   [ 's', $payload->name ],
+                   [ 'i', $uri[$index] ]
+               ]
+           );
+           $this->publishResponse('200', $query, 'success');
+        }else{
+            $this->publishResponse('404', "", 'error');
+        }
     }
     private function delete($request){}
 }

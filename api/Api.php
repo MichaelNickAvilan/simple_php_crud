@@ -21,7 +21,7 @@ Class API extends Responder {
         if($current_route != NULL){
             include_once( __DIR__.'/'.$current_route[1] );
             $method = $GLOBALS['_SERVER']['REQUEST_METHOD'];
-            if($method == 'POST' || $method == 'UPDATE'){
+            if($method == 'POST' || $method == 'PUT'){
                 $consumer = new $current_route[2]
                 ( 
                     $GLOBALS,
