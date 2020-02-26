@@ -88,9 +88,24 @@ Class Systems extends Responder{
            );
            $this->publishResponse('200', $query, 'success');
         }else{
-            $this->publishResponse('404', "", 'error');
+           $this->publishResponse('404', "", 'error');
         }
     }
-    private function delete($request){}
+    private function delete($request){
+        $uri = $this->uri;
+        $uri=explode("/",$uri);
+        $index = count($uri) - 1;
+        if( $this->route != $uri[$index] ){
+           $database_consumer = new Database();
+           $query = $database_consumer->rawQuery(
+               "DELETE FROM systems WHERE id=?", 
+               [
+                   [ 'i', $uri[$index] ]
+               ]
+           );
+           $this->publishResponse('200', $query, 'success');
+        }else{
+            $this->publishResponse('404', "", 'error');
+        }}
 }
 ?>
