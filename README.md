@@ -1,6 +1,6 @@
 # Simple PHP CRUD
 Is a simple REST API without authentication, only for testing purposes.
-
+## Raw PHP API
 ### Installation
 Clone this repository to your local LAMP environment
 ```sh
@@ -31,3 +31,24 @@ DB_NAME=systemsapp
 | http://localhost/appsystem/api/system | Inserts a register | POST | { "name" : "The system name" } |
 | http://localhost/appsystem/api/system/{id} | Updates a register | PUT | { "name" : "The system name" } |
 | http://localhost/appsystem/api/system/{id} | Deletes a register | DELETE | N/A |
+
+## Laravel API
+### Installation
+Clone this repository to your local LAMP environment
+```sh
+git clone https://github.com/MichaelNickAvilan/simple_php_crud.git
+```
+Execute the following commands
+```sh
+cd apilaravel
+composer install
+php artisan migrate
+```
+### routes
+| Route | Description | Verb | Payload |
+| ------ | ------ | ------ | ------ |
+| http://localhost/apilaravel/api/systems | Returns all the registers of the systems table | GET | N/A |
+| http://localhost/apilaravel/api/systems/1 | Returns a specific register | GET | N/A |
+| http://localhost/apilaravel/api/systems | Inserts a register | POST | { "name" : "The system name" } |
+| http://localhost/apilaravel/api/systems/{id} | Updates a register | PUT | { "name" : "The system name" } |
+| http://localhost/apilaravel/api/systems/{id} | Deletes a register | DELETE | N/A |
